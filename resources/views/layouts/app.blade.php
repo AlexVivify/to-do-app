@@ -19,7 +19,7 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <style>
         .complete{
-            background-color:red;
+            display:none
         }
     </style>
 </head>
@@ -29,6 +29,7 @@
         <main class="py-4">
             <div id="example">
             </div>
+
         </main>
         @include('partials/footer')
     </div>

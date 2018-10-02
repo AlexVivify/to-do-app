@@ -58804,6 +58804,8 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_router_dom__ = __webpack_require__(8);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -58841,30 +58843,40 @@ var Tasks = function (_Component) {
       });
     }
   }, {
+    key: "handlePriority",
+    value: function handlePriority(e) {
+      e.target.style = "background: lightgrey; border:solid; border-color:black";
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       var complete = {
-        "background-color": "red"
+        display: "none"
       };
+
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         "div",
-        { className: "container" },
+        _defineProperty({ className: "container" }, "className", "jumbotron"),
         this.state.tasks.map(function (task) {
           return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             "div",
-            { style: task.isDone === 1 ? complete : {} },
+            { onClick: _this3.handlePriority.bind(_this3) },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              __WEBPACK_IMPORTED_MODULE_3_react_router_dom__["b" /* Link */],
-              { to: "/tasks/" + task.id },
-              " ",
-              task.title,
-              " ",
+              "li",
+              null,
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                "span",
-                null,
-                "DONE!"
+                __WEBPACK_IMPORTED_MODULE_3_react_router_dom__["b" /* Link */],
+                { to: "/tasks/" + task.id },
+                " ",
+                task.title
               ),
-              " "
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "strong",
+                { style: task.isDone === 0 ? complete : {} },
+                " Done "
+              )
             )
           );
         })
@@ -61442,6 +61454,9 @@ var Task = function (_Component) {
       task: {},
       redirect: false
     };
+    _this.props = {
+      priority: true
+    };
     return _this;
   }
 
@@ -61469,6 +61484,18 @@ var Task = function (_Component) {
       });
     }
   }, {
+    key: "handleComplete",
+    value: function handleComplete() {
+      var _this4 = this;
+
+      __WEBPACK_IMPORTED_MODULE_2_axios___default.a.patch("/api/task/complete/" + this.props.match.params.id).then(function (response) {
+        alert("Task completed!");
+        _this4.setState({ redirect: true });
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var redirect = this.state.redirect;
@@ -61482,7 +61509,7 @@ var Task = function (_Component) {
         null,
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           "h1",
-          null,
+          { className: "jumbotron" },
           " ",
           this.state.task.title,
           " "
@@ -61497,7 +61524,10 @@ var Task = function (_Component) {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("hr", null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           "button",
-          { onClick: this.handleDelete.bind(this) },
+          {
+            onClick: this.handleDelete.bind(this),
+            className: "btn btn-danger"
+          },
           "Delete"
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -61505,9 +61535,21 @@ var Task = function (_Component) {
           { to: "/edit-task/" + this.props.match.params.id },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             "button",
-            { disabled: this.state.task.isDone === 1 },
+            {
+              disabled: this.state.task.isDone === 1,
+              className: "btn btn-warning"
+            },
             "Edit"
           )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "button",
+          {
+            onClick: this.handleComplete.bind(this),
+            disabled: this.state.task.isDone === 1,
+            className: "btn btn-primary"
+          },
+          "Mark as completed"
         )
       );
     }
@@ -61605,8 +61647,9 @@ var NewTask = function (_Component) {
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           "form",
-          { onSubmit: this.handleSubmit.bind(this) },
+          { onSubmit: this.handleSubmit.bind(this), className: "form-group" },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", {
+            className: "form-control",
             type: "text",
             name: "title",
             placeholder: "Insert task title",
@@ -61615,11 +61658,16 @@ var NewTask = function (_Component) {
           " ",
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", {
+            className: "form-control",
             name: "description",
             placeholder: "Insert title description",
             onChange: this.onDescriptionChange.bind(this)
           }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "submit", value: "Submit" })
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", {
+            className: "btn btn-secondary mt-3",
+            type: "submit",
+            value: "Submit"
+          })
         )
       );
     }

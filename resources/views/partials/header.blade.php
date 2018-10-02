@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-md navbar-light navbar-laravel bg-info">
     <div class="container">
         <a class="navbar-brand" >
@@ -10,8 +11,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                
+
             </ul>
+
+
+
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">

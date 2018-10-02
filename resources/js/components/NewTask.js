@@ -45,8 +45,9 @@ export default class NewTask extends Component {
     return (
       <div>
         <h1> Insert new task </h1>
-        <form onSubmit={this.handleSubmit.bind(this)}>
+        <form onSubmit={this.handleSubmit.bind(this)} className="form-group">
           <input
+            className="form-control"
             type="text"
             name="title"
             placeholder="Insert task title"
@@ -54,11 +55,16 @@ export default class NewTask extends Component {
           />{" "}
           <br />
           <textarea
+            className="form-control"
             name="description"
             placeholder="Insert title description"
             onChange={this.onDescriptionChange.bind(this)}
           />
-          <input type="submit" value="Submit" />
+          <input
+            className="btn btn-secondary mt-3"
+            type="submit"
+            value="Submit"
+          />
         </form>
       </div>
     );

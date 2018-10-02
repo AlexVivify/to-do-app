@@ -9,6 +9,9 @@ export default class Task extends Component {
       task: {},
       redirect: false
     };
+    this.props = {
+      priority: true
+    };
   }
   componentDidMount() {
     axios
@@ -30,6 +33,17 @@ export default class Task extends Component {
         console.log(error);
       });
   }
+  handleComplete() {
+    axios
+      .patch("/api/task/complete/" + this.props.match.params.id)
+      .then(response => {
+        alert("Task completed!");
+        this.setState({ redirect: true });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   render() {
     const { redirect } = this.state;
@@ -39,13 +53,30 @@ export default class Task extends Component {
     }
     return (
       <div>
-        <h1> {this.state.task.title} </h1>
+        <h1 className="jumbotron"> {this.state.task.title} </h1>
         <p> {this.state.task.description} </p>
         <hr />
-        <button onClick={this.handleDelete.bind(this)}>Delete</button>
+        <button
+          onClick={this.handleDelete.bind(this)}
+          className="btn btn-danger"
+        >
+          Delete
+        </button>
         <Link to={"/edit-task/" + this.props.match.params.id}>
-          <button disabled={this.state.task.isDone === 1}>Edit</button>
+          <button
+            disabled={this.state.task.isDone === 1}
+            className="btn btn-warning"
+          >
+            Edit
+          </button>
         </Link>
+        <button
+          onClick={this.handleComplete.bind(this)}
+          disabled={this.state.task.isDone === 1}
+          className="btn btn-primary"
+        >
+          Mark as completed
+        </button>
       </div>
     );
   }

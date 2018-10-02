@@ -22,18 +22,23 @@ export default class Tasks extends Component {
       });
   }
 
+  handlePriority(e) {
+    e.target.style = "background: lightgrey; border:solid; border-color:black";
+  }
   render() {
     const complete = {
-      "background-color": "red"
+      display: "none"
     };
+
     return (
-      <div className="container">
+      <div className="container" className="jumbotron">
         {this.state.tasks.map(task => (
-          <div style={task.isDone === 1 ? complete : {}}>
-            <Link to={"/tasks/" + task.id}>
-              {" "}
-              {task.title} <span>DONE!</span>{" "}
-            </Link>
+          <div onClick={this.handlePriority.bind(this)}>
+            <li>
+              <Link to={"/tasks/" + task.id}> {task.title}</Link>
+
+              <strong style={task.isDone === 0 ? complete : {}}> Done </strong>
+            </li>
           </div>
         ))}
       </div>

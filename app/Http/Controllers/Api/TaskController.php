@@ -40,7 +40,7 @@ class TaskController extends Controller
         $task = new Task();
         $task->title=$request->get('title');
         $task->description = $request->get('description');
-        
+
         $task->save();
     }
 
@@ -64,7 +64,10 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task = Task::find($id);
+        $task->isDone = true;
+        $task->save();
+
     }
 
     /**
