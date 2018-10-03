@@ -1,8 +1,8 @@
-<html>
-  <head>
-    <title>Index</title>
-  </head>
-  <body>
-    <h1>Index page</h1>
-  </body>
-</html>
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div id="example">
+    </div>
+</div>
+@endsection

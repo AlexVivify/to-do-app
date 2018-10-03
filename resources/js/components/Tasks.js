@@ -1,45 +1,50 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import axios from "axios";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import TaskComponent from "./TaskComponent";
+import myTasksService from "./TaskService";
 
 export default class Tasks extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       tasks: []
     };
   }
 
-  componentWillMount() {
-    axios
-      .get("/api/task")
-      .then(response => {
-        this.setState({ tasks: response.data });
+  getTasks() {
+    myTasksService
+      .getTasks()
+      .then(res => {
+        this.setState({ tasks: res.data });
       })
-      .catch(errors => {
-        console.log(errors);
+      .catch(error => {
+        alert("Something went wrong!");
       });
   }
 
-  handlePriority(e) {
-    e.target.style = "background: lightgrey; border:solid; border-color:black";
+  componentDidMount() {
+    this.getTasks();
   }
-  render() {
-    const complete = {
-      display: "none"
-    };
 
+  handlePriority(e) {
+    const id = e.target.id;
+    let temp = this.state.tasks;
+    let obj = temp.find(el => el.id == id);
+    let index = temp.indexOf(obj);
+    temp.splice(index, 1);
+    temp.unshift(obj);
+    this.setState({ tasks: temp });
+    var element = document.getElementById("myDiv");
+    element.style = "border:solid;borderColor:black;color:orange";
+  }
+
+  render() {
     return (
       <div className="container" className="jumbotron">
         {this.state.tasks.map(task => (
-          <div onClick={this.handlePriority.bind(this)}>
-            <li>
-              <Link to={"/tasks/" + task.id}> {task.title}</Link>
-
-              <strong style={task.isDone === 0 ? complete : {}}> Done </strong>
-            </li>
-          </div>
+          <TaskComponent
+            task={task}
+            handlePriority={this.handlePriority.bind(this)}
+          />
         ))}
       </div>
     );

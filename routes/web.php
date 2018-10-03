@@ -14,6 +14,12 @@
 
 Route::group(['middleware'=>['home-middleware','auth']], function () {
     Route::get('/', 'HomeController@home');
+
+    Route::get('/tasksPanel', function(){
+        return view("index");
+    });
+
+
 });
 
 

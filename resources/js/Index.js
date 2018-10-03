@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Tasks from "./components/Tasks";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import Example from "./components/Example";
+import { HashRouter as Router, Link, Route } from "react-router-dom";
+import Welcome from "./components/Welcome";
 import Task from "./components/Task";
 import NewTask from "./components/NewTask";
 import EditTask from "./components/EditTask";
@@ -16,7 +16,7 @@ export default class Index extends Component {
             <Link to="/">Home</Link>
             <Link to="/tasks">Tasks</Link>
             <Link to="/tasks-create">New task </Link>
-            <Route path="/" exact component={Example} />
+            <Route path="/" exact component={Welcome} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks-create" exact component={NewTask} />
             <Route

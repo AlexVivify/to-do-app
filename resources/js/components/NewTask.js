@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import myTasksService from "./TaskService";
 
 export default class NewTask extends Component {
   constructor(props) {
@@ -23,11 +24,11 @@ export default class NewTask extends Component {
       description: e.target.value
     });
   }
-  handleSubmit(e) {
-    e.preventDefault();
-    axios
-      .post("/api/task", this.state)
-      .then(response => {
+
+  addTask() {
+    myTasksService
+      .addTask(this.state)
+      .then(res => {
         alert("Task created successfuly");
         this.setState({ redirect: true });
       })
@@ -36,12 +37,17 @@ export default class NewTask extends Component {
       });
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.addTask();
+  }
+
   render() {
     const { redirect } = this.state;
-
     if (redirect) {
       return <Redirect to="/tasks" />;
     }
+
     return (
       <div>
         <h1> Insert new task </h1>

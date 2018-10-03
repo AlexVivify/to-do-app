@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import axios from "axios";
 import { Redirect } from "react-router-dom";
+import myTasksService from "./TaskService";
 
 export default class NewTask extends Component {
   constructor(props) {
@@ -11,6 +10,22 @@ export default class NewTask extends Component {
       description: "",
       redirect: false
     };
+  }
+
+  componentDidMount() {
+    this.getTask();
+  }
+
+  getTask() {
+    myTasksService
+      .getTask(this.props.match.params.id)
+      .then(response => {
+        this.setState({
+          title: response.data.title,
+          description: response.data.description
+        });
+      })
+      .catch(error => console.log(error));
   }
 
   onTitleChange(e) {
@@ -25,8 +40,8 @@ export default class NewTask extends Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    axios
-      .put("/api/task/update/" + this.props.match.params.id, this.state)
+    myTasksService
+      .editTask(this.props.match.params.id, this.state)
       .then(response => {
         alert("Task edited successfuly");
         this.setState({ redirect: true });
@@ -34,18 +49,6 @@ export default class NewTask extends Component {
       .catch(error => {
         console.log(error);
       });
-  }
-
-  componentWillMount() {
-    axios
-      .get("/api/task/" + this.props.match.params.id)
-      .then(response => {
-        this.setState({
-          title: response.data.title,
-          description: response.data.description
-        });
-      })
-      .catch(error => console.log(error));
   }
 
   render() {

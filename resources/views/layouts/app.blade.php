@@ -27,8 +27,8 @@
     <div id="app">
         @include('partials/header')
         <main class="py-4">
-            <div id="example">
-            </div>
+
+            @yield('content')
 
         </main>
         @include('partials/footer')

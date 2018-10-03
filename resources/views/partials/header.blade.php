@@ -11,7 +11,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-
+                <a href="/"> Home </a>
+                <a href="/tasksPanel"> <li>Tasks panel</li> </a>
             </ul>
 
 

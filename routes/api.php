@@ -22,3 +22,4 @@ Route::resource("task", "Api\TaskController");
 Route::put('task/update/{id}', 'Api\TaskController@update');
 
 Route::patch('task/complete/{id}', 'Api\TaskController@edit');
+

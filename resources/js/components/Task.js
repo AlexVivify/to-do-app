@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import axios from "axios";
+
 import { Redirect, Link } from "react-router-dom";
+import myTasksService from "./TaskService";
 export default class Task extends Component {
   constructor(props) {
     super(props);
@@ -13,18 +13,22 @@ export default class Task extends Component {
       priority: true
     };
   }
+
   componentDidMount() {
-    axios
-      .get("/api/task/" + this.props.match.params.id)
+    this.getTask();
+  }
+  getTask() {
+    myTasksService
+      .getTask(this.props.match.params.id)
       .then(response => {
         this.setState({ task: response.data });
       })
       .catch(error => console.log(error));
   }
 
-  handleDelete() {
-    axios
-      .delete("/api/task/" + this.props.match.params.id)
+  deleteTask() {
+    myTasksService
+      .deleteTask(this.props.match.params.id)
       .then(response => {
         alert("Task deleted successfuly!");
         this.setState({ redirect: true });
@@ -33,9 +37,14 @@ export default class Task extends Component {
         console.log(error);
       });
   }
+
+  handleDelete() {
+    this.deleteTask();
+  }
+
   handleComplete() {
-    axios
-      .patch("/api/task/complete/" + this.props.match.params.id)
+    myTasksService
+      .mark(this.props.match.params.id)
       .then(response => {
         alert("Task completed!");
         this.setState({ redirect: true });
@@ -47,7 +56,6 @@ export default class Task extends Component {
 
   render() {
     const { redirect } = this.state;
-
     if (redirect) {
       return <Redirect to="/tasks" />;
     }
